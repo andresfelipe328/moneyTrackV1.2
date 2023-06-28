@@ -8,7 +8,10 @@ import { signIn } from "next-auth/react";
 
 const SignInGoogle = () => {
   const handleLogin = () => {
-    signIn("google");
+    signIn("google", {
+      redirect: true,
+      callbackUrl: "/",
+    });
   };
 
   return (

@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
@@ -8,7 +10,8 @@ import Subscriptions from "@/components/dashboardPage/Subscriptions";
 import BasicLayoutAnimation from "@/components/animatedLayouts/BasicLayoutAnimation";
 
 export default async function Home() {
-  // const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
   return (
     <BasicLayoutAnimation

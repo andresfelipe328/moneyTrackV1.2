@@ -13,7 +13,9 @@ const page = () => {
     >
       <h1>Signup/Login</h1>
 
-      <SignInGoogle />
+      <div>
+        <SignInGoogle />
+      </div>
     </BasicLayoutAnimation>
   );
 };

@@ -2,13 +2,29 @@
 
 import React from "react";
 
+import { ChartContent } from "@/utils/types";
+import { roundValue } from "@/utils/roundValue";
+
+import { BsCreditCard2BackFill } from "react-icons/bs";
+
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { BsCreditCard2BackFill } from "react-icons/bs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const SpendingPieChart = () => {
+type Props = {
+  spending: ChartContent[];
+};
+
+const SpendingPieChart = ({ spending }: Props) => {
+  const currentSpending = () => {
+    const total = spending.reduce(
+      (sum: number, item: ChartContent) => sum + item.amount,
+      0
+    );
+    return roundValue(total);
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -43,11 +59,11 @@ const SpendingPieChart = () => {
   };
 
   const data = {
-    labels: ["Recreation", "healthcare", "Food"],
+    labels: spending.map((item) => item.label),
     datasets: [
       {
-        data: [300, 50, 100],
-        backgroundColor: ["#E0E1DD", "#778DA9", "#F5CB5C"],
+        data: spending.map((item) => item.amount),
+        backgroundColor: spending.map((item) => item.color.color),
       },
     ],
   };
@@ -57,7 +73,7 @@ const SpendingPieChart = () => {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center -z-10">
         <BsCreditCard2BackFill className="icon text-xl mx-auto" />
         <p>Monthly Spending:</p>
-        <p>$450</p>
+        <p>${currentSpending()}</p>
       </div>
       <Doughnut data={data} options={options} />
     </div>

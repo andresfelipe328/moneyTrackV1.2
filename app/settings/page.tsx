@@ -1,9 +1,13 @@
 import React from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 import { HiUser } from "react-icons/hi";
 import { BsBank2 } from "react-icons/bs";
 
 import BasicLayoutAnimation from "@/components/animatedLayouts/BasicLayoutAnimation";
+import findUserLink from "@/utils/isLinked";
 
 const SETTINGS = [
   {
@@ -18,7 +22,13 @@ const SETTINGS = [
   },
 ];
 
-const page = () => {
+const page = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
+
+  const res = await findUserLink(session);
+  if (!res?.status) redirect("/link-to-bank");
+
   return (
     <BasicLayoutAnimation
       Tag="div"

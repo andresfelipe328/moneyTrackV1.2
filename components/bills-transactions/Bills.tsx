@@ -1,9 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+
+import { Bill as BillType } from "@/utils/types";
+
 import Bill from "./bills/Bill";
 
-const Bills = () => {
+type Props = {
+  bills: BillType[];
+};
+
+const Bills = ({ bills }: Props) => {
   const todayDate = new Date();
   const [date, setDate] = useState<string>(todayDate.toISOString().slice(0, 7));
 
@@ -25,7 +32,11 @@ const Bills = () => {
         />
       </div>
       <ul className="flex flex-col gap-4">
-        <Bill />
+        {bills.length > 0 ? (
+          bills.map((bill, index) => <Bill key={index} bill={bill} />)
+        ) : (
+          <small className="mx-auto mt-2">You have no bills</small>
+        )}
       </ul>
     </div>
   );

@@ -23,8 +23,30 @@ ChartJS.register(
   Filler,
   Legend
 );
+import { OverviewTransaction } from "@/utils/types";
 
-const SpendingChart = () => {
+type Props = {
+  currSpending: OverviewTransaction[];
+  prevSpending?: OverviewTransaction[];
+};
+
+const SpendingChart = ({ currSpending }: Props) => {
+  const labels = (spending: OverviewTransaction[]) => {
+    const setLabels: string[] = [];
+    spending.forEach((item) => {
+      setLabels.push(item.date);
+    });
+    return setLabels;
+  };
+
+  const dataPoints = (spending: OverviewTransaction[]) => {
+    const setDataPoints: number[] = [];
+    spending.forEach((item) => {
+      setDataPoints.push(item.amount);
+    });
+    return setDataPoints;
+  };
+
   const options: any = {
     responsive: true,
     maintainAspectRatio: false,
@@ -66,23 +88,23 @@ const SpendingChart = () => {
       tooltip: {
         padding: 8,
         boxPadding: 3,
-        // callbacks: {
-        //    label: (ctx: any) => {
-        //       let label = ctx.raw;
-        //       return [`${spending[ctx.dataIndex].name}: `, `$${label}`]
-        //    }
-        // }
+        callbacks: {
+          label: (ctx: any) => {
+            let label = ctx.raw;
+            return [`${currSpending[ctx.dataIndex].name}: `, `$${label}`];
+          },
+        },
       },
     },
   };
 
   const data: any = {
-    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+    labels: labels(currSpending),
     datasets: [
       {
         fill: true,
         tension: 0.3,
-        data: [120, 270, 300],
+        data: dataPoints(currSpending),
         pointBackgroundColor: "#333533",
         pointBorderColor: "rgba(245, 203, 92, .5)",
         pointBorderWidth: 2,
@@ -90,15 +112,15 @@ const SpendingChart = () => {
         borderColor: "rgba(117, 101, 76, .85)",
         backgroundColor: "rgba(141, 155, 106, .85)",
       },
-      {
-        labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-        fill: true,
-        tension: 0.3,
-        data: [100, 20, 380, 610, 900, 547, 234],
-        pointRadius: 0,
-        borderColor: "rgba(117, 101, 76, .45)",
-        backgroundColor: "rgba(138, 158, 167, .45)",
-      },
+      // {
+      //   labels: labels(currSpending),
+      //   fill: true,
+      //   tension: 0.3,
+      //   data: dataPoints(currSpending),
+      //   pointRadius: 0,
+      //   borderColor: "rgba(117, 101, 76, .45)",
+      //   backgroundColor: "rgba(138, 158, 167, .45)",
+      // },
     ],
   };
 

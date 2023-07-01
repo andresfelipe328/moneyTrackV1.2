@@ -40,6 +40,20 @@
   input {
     @apply p-1 rounded-md bg-primary-dark/5 text-secondary-light font-semibold outline-none hover:shadow-medium focus:shadow-medium transition-all duration-300 ease-in-out;
   }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-primary-light;
+    @apply rounded-md;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-[.25rem];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-secondary-light;
+    @apply rounded-md;
+  }
 }
 
 @layer components {

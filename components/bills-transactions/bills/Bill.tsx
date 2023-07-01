@@ -1,8 +1,14 @@
 import React from "react";
 
+import { Bill } from "@/utils/types";
+
 import { MdMoreHoriz } from "react-icons/md";
 
-const Bill = () => {
+type Props = {
+  bill: Bill;
+};
+
+const Bill = ({ bill }: Props) => {
   return (
     <div className="flex items-center justify-between gap-1 bg-primary-dark/5 rounded-md p-2">
       <div className="flex flex-col gap-1">

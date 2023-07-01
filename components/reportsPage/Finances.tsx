@@ -1,10 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
+
+import { Bill, OverviewTransaction } from "@/utils/types";
+import { Transaction } from "plaid";
+
 import FinanceBarChart from "./finances/FinanceBarChart";
 import SummaryTable from "./finances/SummaryTable";
 
-const Finances = () => {
+type Props = {
+  earnings: Transaction[];
+  spending: Transaction[];
+  bills: Bill[];
+};
+
+const Finances = ({ earnings, spending, bills }: Props) => {
   const todayDate = new Date();
   const [date, setDate] = useState<string>(todayDate.toISOString().slice(0, 7));
 
@@ -25,8 +35,8 @@ const Finances = () => {
           className="cursor-pointer"
         />
       </div>
-      <FinanceBarChart />
-      <SummaryTable />
+      <FinanceBarChart earnings={earnings} spending={spending} date={date} />
+      <SummaryTable earnings={earnings} spending={spending} bills={bills} />
     </div>
   );
 };

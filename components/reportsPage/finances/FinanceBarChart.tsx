@@ -1,6 +1,11 @@
 "use client";
 
 import React from "react";
+
+import { Transaction } from "plaid";
+import { OverviewTransaction } from "@/utils/types";
+import { roundValue } from "@/utils/roundValue";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,7 +25,27 @@ ChartJS.register(
   Legend
 );
 
-const FinanceBarChart = () => {
+type Props = {
+  earnings: Transaction[];
+  spending: OverviewTransaction[];
+  date: string;
+};
+
+const FinanceBarChart = ({ earnings, spending, date }: Props) => {
+  const addAmounts = (type: string) => {
+    let totalSpending: number = 0;
+    if (type === "earnings")
+      earnings.map((item) => {
+        totalSpending += Math.abs(item.amount);
+      });
+    else
+      spending.map((item) => {
+        totalSpending += Math.abs(item.amount);
+      });
+
+    return roundValue(totalSpending);
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -65,11 +90,11 @@ const FinanceBarChart = () => {
   };
 
   const data = {
-    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+    labels: [date],
     datasets: [
       {
         label: "Earned",
-        data: [100, 20, 380, 610, 900, 547, 234],
+        data: [addAmounts("earnings")],
         backgroundColor: "#8A9EA7",
         borderColor: "#ffffff",
         borderWidth: 1,
@@ -77,7 +102,7 @@ const FinanceBarChart = () => {
       },
       {
         label: "Spent",
-        data: [200, 120, 80, 310, 400, 747, 434],
+        data: [addAmounts("spending")],
         backgroundColor: "#75654C",
         borderColor: "#ffffff",
         borderWidth: 1,

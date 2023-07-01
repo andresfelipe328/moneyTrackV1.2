@@ -13,6 +13,15 @@ export const authOptions: AuthOptions = {
     }),
   ],
   adapter: MongoDBAdapter(clientPromise) as Adapter,
+  callbacks: {
+    async session({ session, token, user }: any) {
+      const newSession = {
+        ...session,
+        user,
+      };
+      return newSession;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

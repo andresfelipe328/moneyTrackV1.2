@@ -11,6 +11,7 @@ type Props = {
 };
 
 const Spending = ({ currSpending }: Props) => {
+  // Gets total monthly spending
   const getTotalSpending = () => {
     let totalSpending: number = 0;
     currSpending.map((item) => {

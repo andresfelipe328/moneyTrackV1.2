@@ -1,5 +1,6 @@
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 
+// Plaid api connection config
 const config = new Configuration({
   basePath: PlaidEnvironments[process.env.PLAID_ENV as string],
   baseOptions: {

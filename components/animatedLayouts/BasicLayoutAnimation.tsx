@@ -10,7 +10,10 @@ type Props = {
 };
 
 const BasicLayoutAnimation = ({ Tag, style, children }: Props) => {
+  // Variables
   const rootRef = useRef<HTMLDivElement>(null);
+
+  // Animation
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(

@@ -1,27 +1,25 @@
-// import mongoose from "mongoose";
-
-// const connectMongo = async () =>
-//   mongoose.connect(process.env.MONGODB_URI as string);
-
-// export default connectMongo;
 import mongoose from "mongoose";
 
+// Checks for mongoDB uri
 if (!process.env.MONGODB_URI) {
   throw new Error("Please add your MONGODB_URI to .env.local");
 }
 
+// Variables
 const MONGODB_URI: string = process.env.MONGODB_URI;
-
 let globalWithMongoose = global as typeof globalThis & {
   mongoose: any;
 };
 let cached = globalWithMongoose.mongoose;
 
+// Checks for cached conn
 if (!cached) {
   cached = globalWithMongoose.mongoose = { conn: null, promise: null };
 }
 
+// Connect to mongoDB
 async function dbConnect() {
+  // If cached, return conn
   if (cached.conn) {
     return cached.conn;
   }

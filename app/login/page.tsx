@@ -8,6 +8,7 @@ import BasicLayoutAnimation from "@/components/animatedLayouts/BasicLayoutAnimat
 import SignInGoogle from "@/components/auth/SignInGoogle";
 
 const page = async () => {
+  // Checks for authentication
   const session = await getServerSession(authOptions);
   if (session) redirect("/");
 

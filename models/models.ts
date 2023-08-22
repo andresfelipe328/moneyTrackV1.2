@@ -41,11 +41,37 @@ const userLinkSchema = new mongoose.Schema({
   },
 });
 
+const budgetSchema = new mongoose.Schema({
+  userid: {
+    type: String,
+    unique: false,
+  },
+  budget_name: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  budget_amount: {
+    type: String,
+    required: true,
+  },
+  mCategory: {
+    type: String,
+    required: true,
+  },
+  sCategory: {
+    type: String,
+  },
+});
+
 // Creating model objects
 // const User = mongoose.models.User || mongoose.model("users", userSchema);
 
 const UserLink =
   mongoose.models.usersLink || mongoose.model("usersLink", userLinkSchema);
 
+const Budget =
+  mongoose.models.budgets || mongoose.model("budgets", budgetSchema);
+
 // Exporting our model objects
-export { UserLink };
+export { UserLink, Budget };

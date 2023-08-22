@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
 
 const LogoutBtn = () => {
+  // Logout user
   const handleLogout = async () => {
     signOut();
   };

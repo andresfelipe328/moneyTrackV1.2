@@ -42,6 +42,7 @@ export type Bill = {
 export type AccountTransaction = {
   accountID: string;
   accountName: string;
+  mask: string;
   transactions: PlaidTransaction[];
 };
 
@@ -52,4 +53,12 @@ export type ChartContent = {
     color: string;
     isLight: boolean;
   };
+};
+
+export type Budget = {
+  name: string;
+  mCategory: string;
+  sCategory: string | null;
+  amount: string;
+  limit: string;
 };

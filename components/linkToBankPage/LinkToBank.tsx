@@ -11,6 +11,7 @@ const LinkToBank = ({ session }: { session: any }) => {
   const [linkToken, setLinkToken] = useState(null);
   const userID: string = session.user.id;
 
+  // Generates the first token that's required to create access token
   const generateToken = async () => {
     const response = await fetch("/api/create-link-token", {
       method: "POST",
@@ -20,6 +21,7 @@ const LinkToBank = ({ session }: { session: any }) => {
     setLinkToken(data.link_token);
   };
 
+  // On page render, generate link token
   useEffect(() => {
     try {
       generateToken();
@@ -28,6 +30,7 @@ const LinkToBank = ({ session }: { session: any }) => {
     }
   }, []);
 
+  // on success of usePlaidLink, create the access token and create a record in the DB
   const onSuccess = React.useCallback(
     async (public_token: string, metadata: any) => {
       await fetch("/api/set-access-token", {
@@ -43,6 +46,7 @@ const LinkToBank = ({ session }: { session: any }) => {
     [userID]
   );
 
+  // usePlaidLink cofiguration
   const config: Parameters<typeof usePlaidLink>[0] = {
     token: linkToken,
     onSuccess,

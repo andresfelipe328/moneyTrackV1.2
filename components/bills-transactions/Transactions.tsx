@@ -1,35 +1,73 @@
 "use client";
 
 import React, { useState } from "react";
-import { AccountTransaction } from "@/utils/types";
+import { Account, AccountTransaction } from "@/utils/types";
 
 import { AiFillCaretDown } from "react-icons/ai";
 import { FaTimes } from "react-icons/fa";
 
 import CollapseAnimationLayout from "../animatedLayouts/CollapseAnimationLayout";
 import Transaction from "./transactions/Transaction";
+import { useSession } from "next-auth/react";
 
 type Props = {
   groupedTransactions: AccountTransaction[];
+  accountList: Account[];
 };
 
-const Transactions = ({ groupedTransactions }: Props) => {
+const Transactions = ({ groupedTransactions, accountList }: Props) => {
+  // Variables
   const todayDate = new Date();
+  const { data } = useSession();
   const [showAccounts, setShowAccounts] = useState(false);
   const [date, setDate] = useState<string>(todayDate.toISOString().slice(0, 7));
+  const [accounts, setAccounts] = useState(groupedTransactions);
   const [currAccount, setCurrAccount] = useState(
-    groupedTransactions[0].accountName
+    groupedTransactions[0].accountName + "-" + groupedTransactions[0].mask
   );
   const [transactions, setTransactions] = useState(
     groupedTransactions[0].transactions
   );
 
-  const fetchMonthData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Fetch data according to input month
+  const fetchMonthData = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
+
+    // Variables
+    const stringDate = e.target.value.split("-");
+    const firstDay = new Date(Number(stringDate[0]), Number(stringDate[1]) - 1);
+    const lastDay =
+      todayDate.getMonth() === firstDay.getMonth()
+        ? todayDate
+        : new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+
+    // Api call to fetch data (grouped transactions)
+    const res = await fetch(
+      "http://localhost:3000/api/monthly-transaction-data",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          firstDay: firstDay.toISOString().slice(0, 10),
+          lastDay: lastDay.toISOString().slice(0, 10),
+          accounts: accountList,
+          user: data,
+        }),
+      }
+    );
+    const { groupedTransactions } = await res.json();
+
+    // Update state
+    setAccounts(groupedTransactions);
+    setCurrAccount(groupedTransactions[0].accountName);
+    setTransactions(groupedTransactions[0].transactions);
   };
 
+  // Changes transactions display according to account selected
   const handleChangeAcc = (account: AccountTransaction) => {
-    setCurrAccount(account.accountName);
+    setCurrAccount(account.accountName + " - " + account.mask);
     setTransactions(account.transactions);
     setShowAccounts(!showAccounts);
   };
@@ -70,13 +108,15 @@ const Transactions = ({ groupedTransactions }: Props) => {
           </button>
           <h3>Your Accounts:</h3>
           <ul className="flex-1 flex flex-col items-center justify-center">
-            {groupedTransactions.map((account) => (
+            {accounts.map((account) => (
               <button
                 onClick={() => handleChangeAcc(account)}
                 key={account.accountID}
                 className="w-fit hover:bg-primary-dark/10 rounded-md p-2 hover:shadow-small transition-all duration-300 ease-in-out"
               >
-                <p>{account.accountName}</p>
+                <p>
+                  {account.accountName} - <small>{account.mask}</small>
+                </p>
               </button>
             ))}
           </ul>

@@ -11,8 +11,10 @@ type Props = {
   style: string;
 };
 const CollapseAnimationLayout = ({ children, show, setShow, style }: Props) => {
-  // Animation ========================================================================================================
+  // Variables
   const rootRef = useRef<HTMLDivElement>(null);
+
+  // Animation
   useEffect(() => {
     if (show)
       gsap.to(rootRef.current, {
@@ -31,9 +33,8 @@ const CollapseAnimationLayout = ({ children, show, setShow, style }: Props) => {
         ease: "power2.out",
       });
   }, [show]);
-  // ==================================================================================================================
 
-  // Control display of modal according to click event ================================================================
+  // Control display of modal according to click event (close)
   const toggleShow = useCallback(() => {
     setShow(!show);
     if (show) {
@@ -41,6 +42,7 @@ const CollapseAnimationLayout = ({ children, show, setShow, style }: Props) => {
     }
   }, [show, setShow]);
 
+  // Controls display of modal accoring to click outside element
   useEffect(() => {
     const handleClick = (event: any) => {
       if (show) if (!rootRef.current!.contains(event.target)) toggleShow();

@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 
 const SignInGoogle = () => {
+  // Login user
   const handleLogin = () => {
     signIn("google", {
       redirect: true,

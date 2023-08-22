@@ -31,6 +31,7 @@ type Props = {
 };
 
 const SpendingChart = ({ currSpending }: Props) => {
+  // Creates labels for the area chart
   const labels = (spending: OverviewTransaction[]) => {
     const setLabels: string[] = [];
     spending.forEach((item) => {
@@ -39,6 +40,7 @@ const SpendingChart = ({ currSpending }: Props) => {
     return setLabels;
   };
 
+  // Creates data points for the area chart
   const dataPoints = (spending: OverviewTransaction[]) => {
     const setDataPoints: number[] = [];
     spending.forEach((item) => {
@@ -47,6 +49,7 @@ const SpendingChart = ({ currSpending }: Props) => {
     return setDataPoints;
   };
 
+  // Configuration for the area chart
   const options: any = {
     responsive: true,
     maintainAspectRatio: false,
@@ -98,6 +101,7 @@ const SpendingChart = ({ currSpending }: Props) => {
     },
   };
 
+  // Styling data points for the area chart
   const data: any = {
     labels: labels(currSpending),
     datasets: [

@@ -23,10 +23,14 @@ const SETTINGS = [
 ];
 
 const page = async () => {
+  // Checks for authentication
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
+  // Checks for bank account link(s)
   const res = await findUserLink(session);
+
+  // If not linked to bank, redirect to link-to-bank page
   if (!res?.status) redirect("/link-to-bank");
 
   return (

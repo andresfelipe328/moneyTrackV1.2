@@ -12,10 +12,8 @@ const AccountBalance = ({ account }: Props) => {
     <div className="flex flex-col gap-1 bg-primary-dark/5 rounded-md p-2">
       <div className="flex items-center justify-between">
         <h3>
-          {account.name}
-          {/* <small className="text-primary-dark/80">
-            {account.type}, {account.subtype}
-          </small> */}
+          {account.name} -
+          <small className="text-primary-dark/80">{account.mask}</small>
         </h3>
         <p className="text-primary-dark font-semibold">
           ${roundValue(account.balances.current!)}

@@ -39,7 +39,7 @@ const Finances = ({ earnings, spending, bills, accounts }: Props) => {
 
     // Api call to fetch earnings, spending, and bills
     const res = await fetch(
-      "http://localhost:3000/api/monthly-finance-report-data",
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/monthly-finance-report-data`,
       {
         method: "POST",
         headers: {

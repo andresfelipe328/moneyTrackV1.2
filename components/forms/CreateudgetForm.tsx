@@ -26,19 +26,22 @@ const CreateudgetForm = () => {
   const handleCreateBudget = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/api/create-budget", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        session: session,
-        budget_name: name,
-        budget_amount: amount,
-        mCateg: mCategory,
-        sCateg: sCategory,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/create-budget`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          session: session,
+          budget_name: name,
+          budget_amount: amount,
+          mCateg: mCategory,
+          sCateg: sCategory,
+        }),
+      }
+    );
 
     const { message, code } = await res.json();
 

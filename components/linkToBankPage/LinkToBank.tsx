@@ -13,10 +13,13 @@ const LinkToBank = ({ session }: { session: any }) => {
 
   // Generates the first token that's required to create access token
   const generateToken = async () => {
-    const response = await fetch("/api/create-link-token", {
-      method: "POST",
-      body: JSON.stringify(userID),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/create-link-token`,
+      {
+        method: "POST",
+        body: JSON.stringify(userID),
+      }
+    );
     const data = await response.json();
     setLinkToken(data.link_token);
   };
@@ -33,7 +36,7 @@ const LinkToBank = ({ session }: { session: any }) => {
   // on success of usePlaidLink, create the access token and create a record in the DB
   const onSuccess = React.useCallback(
     async (public_token: string, metadata: any) => {
-      await fetch("/api/set-access-token", {
+      await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/set-access-token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

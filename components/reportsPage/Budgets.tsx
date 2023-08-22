@@ -201,7 +201,7 @@ const Budgets = ({ spending, budgets }: Props) => {
         : new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
 
     const res = await fetch(
-      "http://localhost:3000/api/monthly-budget-report-data",
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/monthly-budget-report-data`,
       {
         method: "POST",
         headers: {

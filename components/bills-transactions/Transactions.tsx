@@ -43,7 +43,7 @@ const Transactions = ({ groupedTransactions, accountList }: Props) => {
 
     // Api call to fetch data (grouped transactions)
     const res = await fetch(
-      "http://localhost:3000/api/monthly-transaction-data",
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/monthly-transaction-data`,
       {
         method: "POST",
         headers: {

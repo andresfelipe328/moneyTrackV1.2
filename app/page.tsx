@@ -20,7 +20,7 @@ import { Transaction } from "plaid";
 // Get Balances
 const getAccounts = async (access_token: string) => {
   // function call to requests accounts' balances
-  const res = await fetch("http://localhost:3000/api/accounts", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/accounts`, {
     method: "POST",
     cache: "force-cache",
     headers: {

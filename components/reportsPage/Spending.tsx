@@ -38,7 +38,7 @@ const Spending = ({ spending, accounts }: Props) => {
 
     // Api call to fetch spending data
     const res = await fetch(
-      "http://localhost:3000/api/monthly-spending-report-data",
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/monthly-spending-report-data`,
       {
         method: "POST",
         headers: {
